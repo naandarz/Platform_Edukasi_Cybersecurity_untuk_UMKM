@@ -1,11 +1,1132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cybersecurity Edu Platform for UMKM</title>
+<style>
+  /* Minimalist Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #fafafa;
+    color: #1a1a1a;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  button {
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.5);
+  }
+
+  /* Fonts & colors */
+  h1, h2, h3 {
+    font-weight: 700;
+    color: #0d3b66;
+  }
+  h1 {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+    margin-top: 0;
+  }
+  p {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    color: #444;
+  }
+
+  /* Navbar */
+  nav {
+    background-color: #fff;
+    border-bottom: 1px solid #e1e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  nav .brand {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #0d3b66;
+    letter-spacing: 0.5px;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0; padding: 0;
+  }
+  nav ul li {
+    margin-left: 1.25rem;
+  }
+  nav ul li button {
+    background: transparent;
+    color: #0d3b66;
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  nav ul li button:hover,
+  nav ul li button.active {
+    background-color: #0d3b66;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(13,59,102,0.3);
+  }
+
+  /* Container */
+  .container {
+    max-width: 900px;
+    margin: 2.5rem auto;
+    padding: 0 1.25rem;
+  }
+
+  /* Section display */
+  section {
+    display: none;
+    background: #fff;
+    padding: 2rem 2.5rem 2.5rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(13,59,102,0.05);
+  }
+  section.active {
+    display: block;
+  }
+
+  /* Forms */
+  form {
+    max-width: 460px;
+  }
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #33475b;
+    margin-bottom: 0.35rem;
+  }
+  input[type=text], input[type=password], input[type=email], textarea, select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #d9dde3;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #22303c;
+    font-weight: 500;
+    background: #fafafa;
+    margin-bottom: 1.2rem;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
+  }
+  input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, textarea:focus, select:focus {
+    border-color: #0d3b66;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 6px rgba(13, 59, 102, 0.2);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+  .form-error {
+    color: #d93025;
+    font-size: 0.85rem;
+    margin-top: -0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Buttons */
+  button.primary {
+    background-color: #0d3b66;
+    color: #fff;
+    padding: 0.65rem 1.4rem;
+    font-size: 1.05rem;
+    box-shadow: 0 5px 12px rgba(13,59,102,0.24);
+  }
+  button.primary:hover {
+    background-color: #09509c;
+    box-shadow: 0 7px 17px rgba(9,80,156,0.4);
+  }
+  button.secondary {
+    background-color: transparent;
+    color: #0d3b66;
+    padding: 0.5rem 1.1rem;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 2px solid #0d3b66;
+    box-shadow: none;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+  button.secondary:hover {
+    background-color: #0d3b66;
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(13,59,102,0.25);
+  }
+
+  /* Learning modules */
+  .lessons {
+    list-style: none;
+    padding-left: 0;
+    border-radius: 8px;
+    border: 1px solid #e1e8f0;
+    max-width: 280px;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  .lessons li {
+    border-bottom: 1px solid #e1e8f0;
+    padding: 12px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #0d3b66;
+    transition: background-color 0.3s ease;
+  }
+  .lessons li:last-child {
+    border-bottom: none;
+  }
+  .lessons li:hover {
+    background: #d7e0ff;
+  }
+  .lessons li.active {
+    background-color: #0d3b66;
+    color: #fff;
+  }
+  #lesson-content {
+    margin-left: 32px;
+    flex: 1 1;
+    color: #344050;
+    font-weight: 500;
+    line-height: 1.45;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  /* Quiz */
+  .quiz-question h3 {
+    font-weight: 700;
+  }
+  .quiz-options label {
+    display: block;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: #445566;
+    user-select: none;
+    line-height: 1.4;
+  }
+  .quiz-options input[type="radio"] {
+    margin-right: 0.7rem;
+    accent-color: #0d3b66;
+    cursor: pointer;
+  }
+  #quiz-result {
+    color: #0d3b66;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+  }
+
+  /* Certificates */
+  .certificate {
+    max-width: 480px;
+    margin: 1.5rem auto;
+    padding: 2rem;
+    border-radius: 14px;
+    background: #eaf1ff;
+    text-align: center;
+    box-shadow: 0 3px 14px rgba(13,59,102,0.1);
+  }
+  .certificate h2 {
+    margin-bottom: 0.5rem;
+    color: #0d3b66;
+  }
+  .user-name {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #2e3a59;
+  }
+
+  /* Simulation */
+  .simulation-box {
+    background-color: #f7f9fc;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: inset 0 0 12px #d7e2f5;
+  }
+  .simulation-btn {
+    margin-top: 1rem;
+    font-weight: 600;
+  }
+  .simulation-log {
+    margin-top: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e1e8f0;
+    padding: 1rem;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.9rem;
+    max-height: 160px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    color: #33475b;
+  }
+
+  /* Consultation & Incident forms feedback text */
+  #consult-feedback, #incident-feedback {
+    font-weight: 600;
+    color: #0d3b66;
+    margin-top: 1rem;
+  }
+
+  /* Admin Dashboard */
+  .dashboard-stats {
+    display: flex;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+  }
+  .stat-card {
+    background: #eaf1ff;
+    padding: 1.8rem 2.3rem;
+    border-radius: 12px;
+    flex: 1 1 150px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(13,59,102,0.1);
+    transition: transform 0.2s ease;
+  }
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
+  .stat-card h3 {
+    margin: 0.6rem 0 0.3rem;
+    font-size: 2.3rem;
+    color: #0d3b66;
+  }
+  .stat-card p {
+    margin: 0;
+    font-weight: 700;
+    color: #2e3a59;
+    font-size: 1.05rem;
+  }
+
+  /* Layout for learning section */
+  #learning-section > div {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.75rem;
+    flex-wrap: wrap;
+  }
+
+  /* Responsive */
+  @media (max-width: 720px) {
+    nav {
+      padding: 1rem 1.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    nav ul {
+      justify-content: center;
+      width: 100%;
+      margin-top: 0.8rem;
+    }
+    nav ul li {
+      margin-left: 1rem;
+    }
+    #learning-section > div {
+      flex-direction: column;
+      gap: 2rem;
+    }
+    #lesson-content {
+      margin-left: 0;
+    }
+    .stat-card {
+      flex: 1 1 100%;
+    }
+  }
+</style>
 </head>
 <body>
-    
+<nav>
+  <div class="brand">Cybersecurity UMKM</div>
+  <ul id="nav-menu">
+    <!-- Menu populated by JS -->
+  </ul>
+</nav>
+<div class="container">
+
+  <!-- Authentication -->
+  <section id="auth-section" class="active" aria-label="Authentication Section">
+    <h1>Selamat Datang di Platform Edukasi Keamanan Siber untuk UMKM</h1>
+    <p>Silakan masuk atau daftar untuk memulai belajar dan melindungi bisnis Anda.</p>
+    <div id="auth-forms">
+      <div id="login-form">
+        <h2>Masuk</h2>
+        <form id="form-login" aria-label="Login Form">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" autocomplete="username" required aria-required="true" />
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" autocomplete="current-password" required aria-required="true" />
+          <button type="submit" class="primary">Masuk</button>
+          <p>Belum punya akun? <button type="button" id="show-register" class="secondary">Daftar di sini</button></p>
+          <p class="form-error" id="login-error" role="alert" aria-live="assertive"></p>
+        </form>
+      </div>
+      <div id="register-form" style="display:none;">
+        <h2>Daftar</h2>
+        <form id="form-register" aria-label="Register Form">
+          <label for="register-username">Username</label>
+          <input type="text" id="register-username" autocomplete="username" required aria-required="true" />
+          <label for="register-email">Email</label>
+          <input type="email" id="register-email" autocomplete="email" required aria-required="true" />
+          <label for="register-password">Password</label>
+          <input type="password" id="register-password" autocomplete="new-password" required minlength="6" aria-required="true" />
+          <button type="submit" class="primary">Daftar</button>
+          <p>Sudah punya akun? <button type="button" id="show-login" class="secondary">Masuk di sini</button></p>
+          <p class="form-error" id="register-error" role="alert" aria-live="assertive"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Learning modules -->
+  <section id="learning-section" aria-label="Learning Modules" tabindex="0">
+    <h1>Modul Pembelajaran</h1>
+    <p>Pelajari materi keamanan siber penting yang dirancang khusus untuk UMKM.</p>
+    <div>
+      <ul class="lessons" id="lesson-list" role="list" aria-label="Daftar Modul Pembelajaran" tabindex="0">
+        <!-- lessons added by JS -->
+      </ul>
+      <div id="lesson-content" aria-live="polite" aria-atomic="true" tabindex="0">
+        <h2 id="lesson-title">Pilih modul untuk mulai belajar</h2>
+        <p id="lesson-text"></p>
+        <button id="start-quiz-btn" class="primary" style="margin-top:1rem; display:none;">Mulai Kuis</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz and Evaluation -->
+  <section id="quiz-section" aria-label="Quiz Section" tabindex="0">
+    <h1>Sistem Kuis dan Evaluasi</h1>
+    <div id="quiz-container">
+      <div id="quiz-question-container" aria-live="polite" aria-atomic="true"></div>
+      <button id="next-question-btn" class="primary" style="margin-top:1rem;">Lanjutkan</button>
+      <button id="finish-quiz-btn" class="primary" style="margin-top:1rem; display:none;">Selesai</button>
+      <div id="quiz-result"></div>
+    </div>
+  </section>
+
+  <!-- Certification -->
+  <section id="certification-section" aria-label="Certification Section" tabindex="0">
+    <h1>Sertifikasi</h1>
+    <p>Berikut adalah sertifikat yang sudah Anda peroleh.</p>
+    <div id="certificates-list"></div>
+  </section>
+
+  <!-- Cyber Threat Simulation -->
+  <section id="simulation-section" aria-label="Simulation Section" tabindex="0">
+    <h1>Simulasi Ancaman Siber</h1>
+    <p>Simulasikan serangan keamanan siber untuk mengenal jenis ancaman dan cara menghadapinya.</p>
+    <div class="simulation-box">
+      <p>Tekan tombol di bawah untuk memulai simulasi serangan phishing:</p>
+      <button id="simulate-btn" class="primary simulation-btn">Mulai Simulasi Phishing</button>
+      <pre class="simulation-log" id="simulation-log" aria-live="polite" aria-atomic="true"></pre>
+    </div>
+  </section>
+
+  <!-- Consultation -->
+  <section id="consultation-section" aria-label="Consultation Section" tabindex="0">
+    <h1>Konsultasi dengan Pakar</h1>
+    <p>Ajukan pertanyaan atau konsultasi terkait keamanan siber untuk UMKM Anda.</p>
+    <form id="consultation-form" style="max-width:460px;" aria-label="Consultation Form">
+      <label for="consult-name">Nama Lengkap</label>
+      <input type="text" id="consult-name" required aria-required="true" />
+      <label for="consult-email">Email</label>
+      <input type="email" id="consult-email" required aria-required="true" />
+      <label for="consult-message">Pesan atau Pertanyaan</label>
+      <textarea id="consult-message" rows="5" required aria-required="true"></textarea>
+      <button type="submit" class="primary">Kirim Konsultasi</button>
+      <p id="consult-feedback"></p>
+    </form>
+  </section>
+
+  <!-- Incident Report -->
+  <section id="incident-section" aria-label="Incident Reporting Section" tabindex="0">
+    <h1>Laporan Insiden</h1>
+    <p>Laporkan insiden keamanan siber yang Anda alami atau ketahui.</p>
+    <form id="incident-form" style="max-width:460px;" aria-label="Incident Report Form">
+      <label for="incident-name">Nama Pelapor</label>
+      <input type="text" id="incident-name" required aria-required="true" />
+      <label for="incident-email">Email</label>
+      <input type="email" id="incident-email" required aria-required="true" />
+      <label for="incident-description">Deskripsi Insiden</label>
+      <textarea id="incident-description" rows="5" required aria-required="true"></textarea>
+      <button type="submit" class="primary">Kirim Laporan</button>
+      <p id="incident-feedback"></p>
+    </form>
+  </section>
+
+  <!-- Admin Dashboard -->
+  <section id="admin-section" aria-label="Admin Dashboard" tabindex="0">
+    <h1>Dashboard Admin</h1>
+    <div class="dashboard-stats">
+      <div class="stat-card">
+        <h3 id="stat-users">0</h3>
+        <p>Pengguna Terdaftar</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="stat-modules">0</h3>
+        <p>Modul Pembelajaran</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="stat-quizzes">0</h3>
+        <p>Kuis Selesai</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="stat-consultations">0</h3>
+        <p>Permintaan Konsultasi</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="stat-incidents">0</h3>
+        <p>Laporan Insiden</p>
+      </div>
+    </div>
+    <p>Admin dapat meninjau dan mengelola konten di sini. (Fitur placeholder)</p>
+  </section>
+</div>
+
+<script>
+  // Data storage keys
+  const STORAGE_USERS = "cyber-users";
+  const STORAGE_LOGGED_IN = "cyber-logged-in";
+  const STORAGE_CERTIFICATES = "cyber-certificates";
+  const STORAGE_CONSULTATIONS = "cyber-consultations";
+  const STORAGE_INCIDENTS = "cyber-incidents";
+
+  // Lesson data
+  const lessons = [
+    {
+      id: 1,
+      title: "Pengantar Keamanan Siber untuk UMKM",
+      content: "Memahami dasar-dasar keamanan siber, mengapa penting untuk UMKM, dan bagaimana melindungi usaha Anda dari ancaman siber yang umum."
+    },
+    {
+      id: 2,
+      title: "Keamanan Password dan Autentikasi",
+      content: "Pelajari bagaimana cara membuat password yang kuat, memanfaatkan autentikasi dua faktor, serta praktik terbaik menjaga akses akun Anda."
+    },
+    {
+      id: 3,
+      title: "Keamanan Jaringan dan Data",
+      content: "Pelajari cara mengamankan jaringan bisnis Anda, pengamanan data sensitif, dan praktik terbaik backup data yang aman."
+    }
+  ];
+
+  // Quiz questions keyed by lesson id
+  const quizzes = {
+    1: [
+      {
+        question: "Apa alasan utama keamanan siber penting bagi UMKM?",
+        options: ["Melindungi data pelanggan", "Agar terlihat keren", "Mematuhi undang-undang lalu lintas", "Meningkatkan pendapatan cepat"],
+        answer: 0
+      },
+      {
+        question: "Ancaman siber yang paling umum untuk UMKM adalah?",
+        options: ["Phishing", "Zombie apocalypse", "Alien invasion", "Gempa bumi"],
+        answer: 0
+      }
+    ],
+    2: [
+      {
+        question: "Autentikasi dua faktor (2FA) berfungsi untuk?",
+        options: ["Menambah lapisan keamanan", "Menghapus password", "Menghemat listrik", "Mempercepat internet"],
+        answer: 0
+      },
+      {
+        question: "Password yang kuat biasanya ...",
+        options: ["Panjang dan kombinasi karakter", "Nama teman", "Tanggal ulang tahun", "Kata 'password'"],
+        answer: 0
+      }
+    ],
+    3: [
+      {
+        question: "Backup data harus dilakukan ...",
+        options: ["Secara rutin", "Sekali seumur hidup", "Tidak penting", "Setelah terjadi serangan"],
+        answer: 0
+      },
+      {
+        question: "Cara mengamankan jaringan adalah ...",
+        options: ["Menggunakan firewall", "Membiarkan terbuka", "Menggunakan password 'admin'", "Menghubungkan kabel sambungan burung"],
+        answer: 0
+      }
+    ]
+  };
+
+  // State variables
+  let currentUser = null;
+  let currentView = "auth-section";
+  let selectedLessonId = null;
+  let currentQuizIndex = 0;
+  let currentQuizAnswers = [];
+
+  // Cached DOM
+  const navMenu = document.getElementById("nav-menu");
+  const sections = document.querySelectorAll("section");
+  const loginForm = document.getElementById("form-login");
+  const registerForm = document.getElementById("form-register");
+  const loginError = document.getElementById("login-error");
+  const registerError = document.getElementById("register-error");
+  const showRegisterBtn = document.getElementById("show-register");
+  const showLoginBtn = document.getElementById("show-login");
+  const lessonList = document.getElementById("lesson-list");
+  const lessonTitle = document.getElementById("lesson-title");
+  const lessonText = document.getElementById("lesson-text");
+  const startQuizBtn = document.getElementById("start-quiz-btn");
+  const quizSection = document.getElementById("quiz-section");
+  const quizQuestionContainer = document.getElementById("quiz-question-container");
+  const nextQuestionBtn = document.getElementById("next-question-btn");
+  const finishQuizBtn = document.getElementById("finish-quiz-btn");
+  const quizResult = document.getElementById("quiz-result");
+  const certificatesList = document.getElementById("certificates-list");
+  const simulateBtn = document.getElementById("simulate-btn");
+  const simulationLog = document.getElementById("simulation-log");
+  const consultForm = document.getElementById("consultation-form");
+  const consultFeedback = document.getElementById("consult-feedback");
+  const incidentForm = document.getElementById("incident-form");
+  const incidentFeedback = document.getElementById("incident-feedback");
+  const adminSection = document.getElementById("admin-section");
+  const statUsers = document.getElementById("stat-users");
+  const statModules = document.getElementById("stat-modules");
+  const statQuizzes = document.getElementById("stat-quizzes");
+  const statConsultations = document.getElementById("stat-consultations");
+  const statIncidents = document.getElementById("stat-incidents");
+
+  // Initialize users array in localStorage if missing
+  function getUsers() {
+    let users = JSON.parse(localStorage.getItem(STORAGE_USERS));
+    if (!users) {
+      users = [];
+      // Create default admin user
+      users.push({ username: "admin", email: "admin@cyberumkm.id", password: "admin123" });
+      localStorage.setItem(STORAGE_USERS, JSON.stringify(users));
+    }
+    return users;
+  }
+  function setUsers(users) {
+    localStorage.setItem(STORAGE_USERS, JSON.stringify(users));
+  }
+
+  // Certificates storage
+  function getCertificates() {
+    let certificates = JSON.parse(localStorage.getItem(STORAGE_CERTIFICATES));
+    if (!certificates) {
+      certificates = {};
+      localStorage.setItem(STORAGE_CERTIFICATES, JSON.stringify(certificates));
+    }
+    return certificates;
+  }
+  function setCertificates(certificates) {
+    localStorage.setItem(STORAGE_CERTIFICATES, JSON.stringify(certificates));
+  }
+
+  // Consultations storage
+  function getConsultations() {
+    let consultations = JSON.parse(localStorage.getItem(STORAGE_CONSULTATIONS));
+    if (!consultations) {
+      consultations = [];
+      localStorage.setItem(STORAGE_CONSULTATIONS, JSON.stringify(consultations));
+    }
+    return consultations;
+  }
+  function setConsultations(consultations) {
+    localStorage.setItem(STORAGE_CONSULTATIONS, JSON.stringify(consultations));
+  }
+
+  // Incidents storage
+  function getIncidents() {
+    let incidents = JSON.parse(localStorage.getItem(STORAGE_INCIDENTS));
+    if (!incidents) {
+      incidents = [];
+      localStorage.setItem(STORAGE_INCIDENTS, JSON.stringify(incidents));
+    }
+    return incidents;
+  }
+  function setIncidents(incidents) {
+    localStorage.setItem(STORAGE_INCIDENTS, JSON.stringify(incidents));
+  }
+
+  // Authentication save/load
+  function getLoggedInUser() {
+    const username = localStorage.getItem(STORAGE_LOGGED_IN);
+    if (!username) return null;
+    const users = getUsers();
+    return users.find(u => u.username === username) || null;
+  }
+  function setLoggedInUser(username) {
+    localStorage.setItem(STORAGE_LOGGED_IN, username);
+  }
+  function logoutUser() {
+    localStorage.removeItem(STORAGE_LOGGED_IN);
+  }
+
+  // Render navigation menu
+  function renderNav() {
+    navMenu.innerHTML = "";
+    if (!currentUser) {
+      // show login and register links
+      const liLogin = document.createElement("li");
+      const btnLogin = document.createElement("button");
+      btnLogin.textContent = "Masuk / Daftar";
+      btnLogin.addEventListener("click", () => showSection("auth-section"));
+      liLogin.appendChild(btnLogin);
+      navMenu.appendChild(liLogin);
+    } else {
+      // Show main menu for user
+      const menuItems = [
+        { id: "learning-section", label: "Modul Pembelajaran" },
+        { id: "quiz-section", label: "Kuis & Evaluasi" },
+        { id: "certification-section", label: "Sertifikasi" },
+        { id: "simulation-section", label: "Simulasi Ancaman" },
+        { id: "consultation-section", label: "Konsultasi" },
+        { id: "incident-section", label: "Laporan Insiden" },
+      ];
+
+      // If admin
+      if (currentUser.username === "admin") {
+        menuItems.push({ id: "admin-section", label: "Dashboard Admin" });
+      }
+
+      menuItems.push({ id: "logout", label: "Keluar" });
+
+      menuItems.forEach(item => {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.textContent = item.label;
+        btn.dataset.target = item.id;
+        btn.addEventListener("click", () => {
+          if (item.id === "logout") {
+            logoutUser();
+            currentUser = null;
+            location.reload();
+            return;
+          }
+          showSection(item.id);
+        });
+        li.appendChild(btn);
+        navMenu.appendChild(li);
+      });
+    }
+    highlightActiveNav();
+  }
+
+  // Show a section only
+  function showSection(id) {
+    currentView = id;
+    sections.forEach(sec => {
+      if (sec.id === id) {
+        sec.classList.add("active");
+        sec.setAttribute("tabindex", "0");
+        sec.focus();
+      } else {
+        sec.classList.remove("active");
+        sec.removeAttribute("tabindex");
+      }
+    });
+    highlightActiveNav();
+
+    // Special actions on section show
+    if (id === "learning-section") renderLessons();
+    if (id === "certification-section") renderCertificates();
+    if (id === "admin-section") renderAdminDashboard();
+    if (id === "quiz-section") resetQuiz();
+    if (id === "simulation-section") resetSimulation();
+    consultFeedback.textContent = "";
+    incidentFeedback.textContent = "";
+  }
+
+  // Highlight active nav button
+  function highlightActiveNav() {
+    const buttons = navMenu.querySelectorAll("button");
+    buttons.forEach(btn => {
+      if (btn.dataset.target === currentView) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+  }
+
+  // Show register form
+  showRegisterBtn.addEventListener("click", () => {
+    document.getElementById("login-form").style.display = "none";
+    document.getElementById("register-form").style.display = "block";
+    loginError.textContent = "";
+    registerError.textContent = "";
+  });
+  // Show login form
+  showLoginBtn.addEventListener("click", () => {
+    document.getElementById("register-form").style.display = "none";
+    document.getElementById("login-form").style.display = "block";
+    loginError.textContent = "";
+    registerError.textContent = "";
+  });
+
+  // Login form submit
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const username = document.getElementById("login-username").value.trim();
+    const password = document.getElementById("login-password").value;
+    const users = getUsers();
+    const user = users.find(u => u.username === username && u.password === password);
+    if (!user) {
+      loginError.textContent = "Username atau password salah.";
+      return;
+    }
+    currentUser = user;
+    setLoggedInUser(user.username);
+    loginError.textContent = "";
+    showSection("learning-section");
+    renderNav();
+  });
+
+  // Register form submit
+  registerForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const username = document.getElementById("register-username").value.trim();
+    const email = document.getElementById("register-email").value.trim();
+    const password = document.getElementById("register-password").value;
+    let users = getUsers();
+    if (users.find(u => u.username === username)) {
+      registerError.textContent = "Username sudah terdaftar.";
+      return;
+    }
+    const newUser = { username, email, password };
+    users.push(newUser);
+    setUsers(users);
+    registerError.textContent = "";
+    currentUser = newUser;
+    setLoggedInUser(username);
+    showSection("learning-section");
+    renderNav();
+  });
+
+  // Render lessons list
+  function renderLessons() {
+    lessonList.innerHTML = "";
+    lessons.forEach(lesson => {
+      const li = document.createElement("li");
+      li.textContent = lesson.title;
+      li.dataset.id = lesson.id;
+      if (lesson.id === selectedLessonId) {
+        li.classList.add("active");
+      }
+      li.addEventListener("click", () => {
+        selectLesson(lesson.id);
+      });
+      lessonList.appendChild(li);
+    });
+    if (selectedLessonId === null && lessons.length) {
+      selectLesson(lessons[0].id);
+    }
+  }
+
+  // Show selected lesson content
+  function selectLesson(id) {
+    selectedLessonId = id;
+    const lesson = lessons.find(l => l.id === id);
+    if (!lesson) return;
+    lessonTitle.textContent = lesson.title;
+    lessonText.textContent = lesson.content;
+    startQuizBtn.style.display = quizzes[id] ? "inline-block" : "none";
+    renderLessons();
+  }
+
+  // Start quiz for selected lesson
+  startQuizBtn.addEventListener("click", () => {
+    if (!selectedLessonId) return;
+    currentQuizIndex = 0;
+    currentQuizAnswers = [];
+    showSection("quiz-section");
+    renderQuizQuestion();
+  });
+
+  // Render current quiz question
+  function renderQuizQuestion() {
+    quizResult.textContent = "";
+    nextQuestionBtn.style.display = "inline-block";
+    finishQuizBtn.style.display = "none";
+    clearQuizQuestionContainer();
+
+    const questions = quizzes[selectedLessonId];
+    if (!questions || currentQuizIndex >= questions.length) return;
+
+    const q = questions[currentQuizIndex];
+    const div = document.createElement("div");
+    div.className = "quiz-question";
+
+    const questionEl = document.createElement("h3");
+    questionEl.textContent = `Pertanyaan ${currentQuizIndex + 1}: ${q.question}`;
+    div.appendChild(questionEl);
+
+    const optionsDiv = document.createElement("div");
+    optionsDiv.className = "quiz-options";
+
+    q.options.forEach((opt, i) => {
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "quiz-option";
+      input.value = i;
+      if (currentQuizAnswers[currentQuizIndex] === i) {
+        input.checked = true;
+      }
+      label.appendChild(input);
+      label.append(` ${opt}`);
+      optionsDiv.appendChild(label);
+    });
+
+    div.appendChild(optionsDiv);
+    quizQuestionContainer.appendChild(div);
+  }
+
+  // Clear quiz question container
+  function clearQuizQuestionContainer() {
+    while (quizQuestionContainer.firstChild) {
+      quizQuestionContainer.removeChild(quizQuestionContainer.firstChild);
+    }
+  }
+
+  // Next question button click
+  nextQuestionBtn.addEventListener("click", () => {
+    const selected = document.querySelector('input[name="quiz-option"]:checked');
+    if (!selected) {
+      alert("Silakan pilih jawaban sebelum melanjutkan.");
+      return;
+    }
+    currentQuizAnswers[currentQuizIndex] = parseInt(selected.value, 10);
+    currentQuizIndex++;
+    const questions = quizzes[selectedLessonId];
+    if (currentQuizIndex >= questions.length) {
+      nextQuestionBtn.style.display = "none";
+      finishQuizBtn.style.display = "inline-block";
+      clearQuizQuestionContainer();
+      quizQuestionContainer.textContent = "Sesi kuis selesai, silakan klik tombol Selesai untuk evaluasi.";
+    } else {
+      renderQuizQuestion();
+    }
+  });
+
+  // Finish quiz button click - show result and save certificate if passed
+  finishQuizBtn.addEventListener("click", () => {
+    const questions = quizzes[selectedLessonId];
+    // Save last answer if any
+    const selected = document.querySelector('input[name="quiz-option"]:checked');
+    if (selected) {
+      currentQuizAnswers[currentQuizIndex] = parseInt(selected.value, 10);
+    }
+    // Evaluate score
+    let score = 0;
+    questions.forEach((q, i) => {
+      if (currentQuizAnswers[i] === q.answer) score++;
+    });
+    const percentage = (score / questions.length) * 100;
+    quizResult.textContent = `Anda menjawab dengan benar ${score} dari ${questions.length} pertanyaan (${percentage}%).`;
+
+    // Save certificate if >= 60%
+    if (percentage >= 60) {
+      let certificates = getCertificates();
+      if (!certificates[currentUser.username]) {
+        certificates[currentUser.username] = [];
+      }
+      if (!certificates[currentUser.username].includes(selectedLessonId)) {
+        certificates[currentUser.username].push(selectedLessonId);
+        setCertificates(certificates);
+        alert("Selamat! Anda telah mendapatkan sertifikat untuk modul ini.");
+      }
+    } else {
+      alert("Maaf, Anda belum lulus kuis. Silakan pelajari materi dan coba lagi.");
+    }
+
+    finishQuizBtn.style.display = "none";
+    nextQuestionBtn.style.display = "none";
+  });
+
+  // Reset quiz state
+  function resetQuiz() {
+    if (!selectedLessonId) selectedLessonId = lessons[0].id;
+    currentQuizIndex = 0;
+    currentQuizAnswers = [];
+    renderQuizQuestion();
+    quizResult.textContent = "";
+    nextQuestionBtn.style.display = "inline-block";
+    finishQuizBtn.style.display = "none";
+  }
+
+  // Render certificates for current user
+  function renderCertificates() {
+    certificatesList.innerHTML = "";
+    const certificates = getCertificates();
+    const userCerts = certificates[currentUser.username] || [];
+    if (userCerts.length === 0) {
+      certificatesList.textContent = "Anda belum memiliki sertifikat. Selesaikan kuis modul untuk mendapatkan sertifikat.";
+      return;
+    }
+    userCerts.forEach(modId => {
+      const lesson = lessons.find(l => l.id === modId);
+      if (!lesson) return;
+      const certDiv = document.createElement("div");
+      certDiv.className = "certificate";
+      certDiv.innerHTML = `
+        <h2>Sertifikat Lulus</h2>
+        <p class="user-name">${currentUser.username}</p>
+        <p>Modul: <strong>${lesson.title}</strong></p>
+        <p>Tanggal: ${new Date().toLocaleDateString()}</p>
+      `;
+      certificatesList.appendChild(certDiv);
+    });
+  }
+
+  // =====================================
+  // Simulation of cyber threat (phishing)
+  // =====================================
+  function resetSimulation() {
+    simulationLog.textContent = "";
+    simulateBtn.disabled = false;
+  }
+  simulateBtn.addEventListener("click", () => {
+    simulationLog.textContent = "";
+    simulateBtn.disabled = true;
+    let logs = [
+      "Mulai simulasi serangan phishing...",
+      "Menerima email dengan link mencurigakan...",
+      "Memeriksa URL link...",
+      "Link terlihat mencurigakan dan mencoba mendapatkan data login...",
+      "Tindakan pengguna: Apakah Anda klik link? (ya / tidak)",
+    ];
+    let idx = 0;
+    simulationLog.textContent += logs[idx] + "\n";
+
+    function nextStep() {
+      idx++;
+      if (idx < logs.length - 1) {
+        simulationLog.textContent += logs[idx] + "\n";
+        setTimeout(nextStep, 2000);
+      } else if (idx === logs.length - 1) {
+        simulationLog.textContent += logs[idx] + "\n";
+        getUserInput();
+      }
+    }
+    function getUserInput() {
+      let answer = prompt("Apakah Anda klik link phishing? (ya/tidak)");
+      if (!answer) {
+        simulationLog.textContent += "Input tidak valid. Simulasi dihentikan.\n";
+        simulateBtn.disabled = false;
+        return;
+      }
+      answer = answer.toLowerCase();
+      if (answer === "ya") {
+        simulationLog.textContent += "Anda klik link phishing! Data login Anda bisa dicuri.\n";
+        simulationLog.textContent += "Selalu periksa alamat link sebelum klik dan jangan sembarangan memasukkan data.\n";
+      } else if (answer === "tidak") {
+        simulationLog.textContent += "Anda menghindari phishing dengan tidak klik link. Bagus!\n";
+        simulationLog.textContent += "Selalu waspada terhadap email mencurigakan.\n";
+      } else {
+        simulationLog.textContent += "Input tidak valid. Simulasi dihentikan.\n";
+      }
+      simulateBtn.disabled = false;
+    }
+    setTimeout(nextStep, 2000);
+  });
+
+  // Consultation form submit
+  consultForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const name = document.getElementById("consult-name").value.trim();
+    const email = document.getElementById("consult-email").value.trim();
+    const message = document.getElementById("consult-message").value.trim();
+    if (!name || !email || !message) {
+      consultFeedback.style.color = "#d93025";
+      consultFeedback.textContent = "Semua bidang harus diisi.";
+      return;
+    }
+    let consultations = getConsultations();
+    consultations.push({ name, email, message, date: new Date().toISOString() });
+    setConsultations(consultations);
+    consultFeedback.style.color = "#0d3b66";
+    consultFeedback.textContent = "Pesan konsultasi berhasil dikirim. Kami akan menghubungi Anda.";
+    consultForm.reset();
+  });
+
+  // Incident report submit
+  incidentForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const name = document.getElementById("incident-name").value.trim();
+    const email = document.getElementById("incident-email").value.trim();
+    const description = document.getElementById("incident-description").value.trim();
+    if (!name || !email || !description) {
+      incidentFeedback.style.color = "#d93025";
+      incidentFeedback.textContent = "Semua bidang harus diisi.";
+      return;
+    }
+    let incidents = getIncidents();
+    incidents.push({ name, email, description, date: new Date().toISOString() });
+    setIncidents(incidents);
+    incidentFeedback.style.color = "#0d3b66";
+    incidentFeedback.textContent = "Laporan insiden berhasil dikirim. Terima kasih sudah melapor.";
+    incidentForm.reset();
+  });
+
+  // Render admin dashboard stats
+  function renderAdminDashboard() {
+    const users = getUsers();
+    const certificates = getCertificates();
+    const consultations = getConsultations();
+    const incidents = getIncidents();
+
+    // Count completed quizzes as total certificates issued
+    let quizCount = 0;
+    Object.values(certificates).forEach(arr => {
+      quizCount += arr.length;
+    });
+
+    statUsers.textContent = users.length;
+    statModules.textContent = lessons.length;
+    statQuizzes.textContent = quizCount;
+    statConsultations.textContent = consultations.length;
+    statIncidents.textContent = incidents.length;
+  }
+
+  // App init
+  function init() {
+    currentUser = getLoggedInUser();
+    renderNav();
+    if (currentUser) {
+      showSection("learning-section");
+    } else {
+      showSection("auth-section");
+    }
+  }
+
+  init();
+
+</script>
 </body>
 </html>
+
